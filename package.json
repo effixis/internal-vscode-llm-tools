@@ -1,0 +1,616 @@
+{
+	"name": "llm-tools",
+	"displayName": "LLM Tools",
+	"description": "A Toolkit for LLM Experimentation.",
+	"version": "0.1.0",
+	"publisher": "Effixis",
+	"license": "MIT",
+	"pricing": "Free",
+	"homepage": "https://effixis.ch",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/effixis/internal-vscode-llm-tools"
+	},
+	"categories": [
+		"Data Science",
+		"Machine Learning",
+		"Other"
+	],
+	"keywords": [
+		"gpt",
+		"prompt",
+		"embedded",
+		"chat",
+		"llm"
+	],
+	"author": {
+		"name": "Erwan Guyomarch",
+		"email": "erwan.guyomarch@effixis.ch"
+	},
+	"engines": {
+		"vscode": "^1.74.0"
+	},
+	"activationEvents": [],
+	"main": "./out/extension.js",
+	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "llmToolsView",
+					"title": "LLM Tools",
+					"icon": "$(comment)"
+				}
+			]
+		},
+		"viewsWelcome": [
+			{
+				"view": "llmTools.providersExplorer",
+				"contents": "You don't have any LLM Provider defined yet. Add a provider to use LLM Tools.\n[Add Provider](command:llmTools.addProvider)"
+			},
+			{
+				"view": "llmTools.chatsExplorer",
+				"contents": "No chat found. Add a provider and create a new chat.\n[New Chat](command:llmTools.newChat)"
+			},
+			{
+				"view": "llmTools.promptsExplorer",
+				"contents": "If you can't find an existing prompt, feel free to create one.\n[Create Prompt](command:llmTools.newPrompt)"
+			}
+		],
+		"views": {
+			"llmToolsView": [
+				{
+					"type": "tree",
+					"id": "llmTools.providersExplorer",
+					"name": "Providers"
+				},
+				{
+					"type": "webview",
+					"id": "llmTools.chatView",
+					"name": "Chat View"
+				},
+				{
+					"type": "tree",
+					"id": "llmTools.chatsExplorer",
+					"name": "Chats"
+				},
+				{
+					"type": "tree",
+					"id": "llmTools.promptsExplorer",
+					"name": "Prompts"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "llmTools.sendToChat",
+				"title": "To Chat",
+				"icon": "$(send)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.sendToQuickChat",
+				"title": "To Quick Chat",
+				"icon": "$(send)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.newQuickChat",
+				"title": "New Quick Chat",
+				"icon": "$(send)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.clearAll",
+				"title": "Clear Everything (Warning)",
+				"icon": "$(refresh)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.refreshProviders",
+				"title": "Refresh Providers List",
+				"icon": "$(refresh)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.addProvider",
+				"title": "Add Provider",
+				"icon": "$(add)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.copyProviderId",
+				"title": "Copy Provider Id",
+				"icon": "$(copy)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.renameProvider",
+				"title": "Rename Provider",
+				"icon": "$(edit)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.editProviderParameter",
+				"title": "Edit Parameter",
+				"icon": "$(edit)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.exportProviders",
+				"title": "Export Providers (Clipboard)",
+				"icon": "$(export)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.importProviders",
+				"title": "Import Providers",
+				"icon": "$(import)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.removeProvider",
+				"title": "Remove Provider",
+				"icon": "$(trash)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.newParametersTemplate",
+				"title": "New Parameters Template",
+				"icon": "$(add)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.copyParametersTemplateId",
+				"title": "Copy Parameters Template Id",
+				"icon": "$(copy)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.editParametersTemplate",
+				"title": "Edit Parameters Template",
+				"icon": "$(edit)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.renameParametersTemplate",
+				"title": "Rename Parameters Template",
+				"icon": "$(edit)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.deleteParametersTemplate",
+				"title": "Delete Parameters Template",
+				"icon": "$(trash)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.refreshChats",
+				"title": "Refresh Chats List",
+				"icon": "$(refresh)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.newChat",
+				"title": "New Chat",
+				"icon": "$(plus)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.copyChatId",
+				"title": "Copy Chat Id",
+				"icon": "$(copy)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.renameChat",
+				"title": "Rename Chat",
+				"icon": "$(plus)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.exportChats",
+				"title": "Export Chats (Clipboard)",
+				"icon": "$(export)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.importChats",
+				"title": "Import Chats",
+				"icon": "$(import)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.deleteChat",
+				"title": "Delete Chat",
+				"icon": "$(trash)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.openChat",
+				"title": "Open Chat",
+				"icon": "$(open-preview)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.showChat",
+				"title": "Show Chat",
+				"icon": "$(open-preview)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.refreshPrompts",
+				"title": "Refresh Prompt List",
+				"icon": "$(refresh)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.newPrompt",
+				"title": "New Prompt",
+				"icon": "$(plus)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.newQuickPrompt",
+				"title": "New Quick Prompt",
+				"icon": "$(plus)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.copyPromptId",
+				"title": "Copy Prompt Id",
+				"icon": "$(copy)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.newPromptFromSelection",
+				"title": "To New Prompt",
+				"icon": "$(plus)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.newPromptFromClipboard",
+				"title": "New Prompt (From Clipboard)",
+				"icon": "$(plus)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.editPrompt",
+				"title": "Edit Prompt",
+				"icon": "$(edit)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.renamePrompt",
+				"title": "Rename Prompt",
+				"icon": "$(edit)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.openPrompt",
+				"title": "Open Prompt",
+				"icon": "$(open-preview)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.exportPrompts",
+				"title": "Export Prompts (Clipboard)",
+				"icon": "$(export)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.importPrompts",
+				"title": "Import Prompts",
+				"icon": "$(import)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.deletePrompt",
+				"title": "Delete Prompts",
+				"icon": "$(trash)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.copyPromptValue",
+				"title": "Copy Prompt Value",
+				"icon": "$(copy)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.displayPrompt",
+				"title": "Open Prompt",
+				"icon": "$(output)",
+				"category": "LLM Tools"
+			},
+			{
+				"command": "llmTools.displayPromptReadOnly",
+				"title": "Open Prompt (Read Only)",
+				"icon": "$(output)",
+				"category": "LLM Tools"
+			}
+		],
+		"menus": {
+			"commandPalette": [
+				{
+					"command": "llmTools.sendToChat",
+					"when": "false"
+				},
+				{
+					"command": "llmTools.sendToQuickChat",
+					"when": "false"
+				},
+				{
+					"command": "llmTools.removeProvider",
+					"when": "false"
+				},
+				{
+					"command": "llmTools.renameProvider",
+					"when": "false"
+				},
+				{
+					"command": "llmTools.editParametersTemplate",
+					"when": "false"
+				},
+				{
+					"command": "llmTools.renameParametersTemplate",
+					"when": "false"
+				},
+				{
+					"command": "llmTools.deleteParametersTemplate",
+					"when": "false"
+				},
+				{
+					"command": "llmTools.newPromptFromSelection",
+					"when": "false"
+				},
+				{
+					"command": "llmTools.renameChat",
+					"when": "false"
+				},
+				{
+					"command": "llmTools.showChat",
+					"when": "false"
+				},
+				{
+					"command": "llmTools.deleteChat",
+					"when": "false"
+				},
+				{
+					"command": "llmTools.editPrompt",
+					"when": "false"
+				},
+				{
+					"command": "llmTools.renamePrompt",
+					"when": "false"
+				},
+				{
+					"command": "llmTools.deletePrompt",
+					"when": "false"
+				},
+				{
+					"command": "llmTools.copyPromptValue",
+					"when": "false"
+				},
+				{
+					"command": "llmTools.displayPrompt",
+					"when": "false"
+				},
+				{
+					"command": "llmTools.displayPromptReadOnly",
+					"when": "false"
+				}
+			],
+			"view/title": [
+				{
+					"command": "llmTools.addProvider",
+					"icon": "$(plus)",
+					"when": "view == llmTools.providersExplorer",
+					"group": "navigation"
+				},
+				{
+					"command": "llmTools.exportProviders",
+					"icon": "$(export)",
+					"when": "view == llmTools.providersExplorer",
+					"group": "export"
+				},
+				{
+					"command": "llmTools.importProviders",
+					"icon": "$(import)",
+					"when": "view == llmTools.providersExplorer",
+					"group": "export"
+				},
+				{
+					"command": "llmTools.refreshProviders",
+					"icon": "$(refresh)",
+					"when": "view == llmTools.providersExplorer",
+					"group": "refresh"
+				},
+				{
+					"command": "llmTools.newChat",
+					"icon": "$(plus)",
+					"when": "view == llmTools.chatsExplorer",
+					"group": "navigation"
+				},
+				{
+					"command": "llmTools.exportChats",
+					"icon": "$(export)",
+					"when": "view == llmTools.chatsExplorer",
+					"group": "export"
+				},
+				{
+					"command": "llmTools.importChats",
+					"icon": "$(import)",
+					"when": "view == llmTools.chatsExplorer",
+					"group": "export"
+				},
+				{
+					"command": "llmTools.refreshChats",
+					"icon": "$(refresh)",
+					"when": "view == llmTools.chatsExplorer"
+				},
+				{
+					"command": "llmTools.newPrompt",
+					"icon": "$(add)",
+					"when": "view == llmTools.promptsExplorer",
+					"group": "navigation"
+				},
+				{
+					"command": "llmTools.newPromptFromClipboard",
+					"icon": "$(add)",
+					"when": "view == llmTools.promptsExplorer",
+					"group": "Add"
+				},
+				{
+					"command": "llmTools.exportPrompts",
+					"icon": "$(export)",
+					"when": "view == llmTools.promptsExplorer",
+					"group": "export"
+				},
+				{
+					"command": "llmTools.importPrompts",
+					"icon": "$(import)",
+					"when": "view == llmTools.promptsExplorer",
+					"group": "export"
+				},
+				{
+					"command": "llmTools.refreshPrompts",
+					"icon": "$(refresh)",
+					"when": "view == llmTools.promptsExplorer"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "llmTools.renameProvider",
+					"when": "view == llmTools.providersExplorer && viewItem == provider",
+					"group": "edit@1"
+				},
+				{
+					"command": "llmTools.copyProviderId",
+					"when": "view == llmTools.providersExplorer && viewItem == provider",
+					"group": "edit@2"
+				},
+				{
+					"command": "llmTools.removeProvider",
+					"when": "view == llmTools.providersExplorer && viewItem == provider",
+					"group": "remove"
+				},
+				{
+					"command": "llmTools.newParametersTemplate",
+					"when": "view == llmTools.providersExplorer && viewItem == providerFolder",
+					"group": "inline"
+				},
+				{
+					"command": "llmTools.renameParametersTemplate",
+					"when": "view == llmTools.providersExplorer && viewItem == parametersTemplate",
+					"group": "edit@1"
+				},
+				{
+					"command": "llmTools.copyParametersTemplateId",
+					"when": "view == llmTools.providersExplorer && viewItem == parametersTemplate",
+					"group": "edit@2"
+				},
+				{
+					"command": "llmTools.deleteParametersTemplate",
+					"when": "view == llmTools.providersExplorer && viewItem == parametersTemplate",
+					"group": "remove"
+				},
+				{
+					"command": "llmTools.renameChat",
+					"when": "view == llmTools.chatsExplorer && viewItem == chat",
+					"group": "edit@1"
+				},
+				{
+					"command": "llmTools.copyChatId",
+					"when": "view == llmTools.chatsExplorer && viewItem == chat",
+					"group": "edit@2"
+				},
+				{
+					"command": "llmTools.deleteChat",
+					"when": "view == llmTools.chatsExplorer && viewItem == chat",
+					"group": "remove"
+				},
+				{
+					"command": "llmTools.copyPromptValue",
+					"when": "view == llmTools.promptsExplorer && viewItem == prompt",
+					"group": "inline@2"
+				},
+				{
+					"command": "llmTools.renamePrompt",
+					"when": "view == llmTools.promptsExplorer && viewItem == prompt",
+					"group": "edit@1"
+				},
+				{
+					"command": "llmTools.copyPromptId",
+					"when": "view == llmTools.promptsExplorer && viewItem == prompt",
+					"group": "edit@2"
+				},
+				{
+					"command": "llmTools.deletePrompt",
+					"when": "view == llmTools.promptsExplorer && viewItem == prompt",
+					"group": "remove"
+				}
+			],
+			"editor/context": [
+				{
+					"command": "llmTools.newPromptFromSelection",
+					"group": "llm@3"
+				},
+				{
+					"command": "llmTools.sendToChat",
+					"group": "llm@2"
+				},
+				{
+					"command": "llmTools.sendToQuickChat",
+					"group": "llm@1"
+				}
+			]
+		},
+		"configuration": {
+			"title": "LLM Tools",
+			"properties": {
+				"llmTools.defaultProviderId": {
+					"type": [
+						"string",
+						"null"
+					],
+					"default": null,
+					"description": "The LLM Provider used when creating a quick chat."
+				},
+				"llmTools.defaultParametersTemplateId": {
+					"type": [
+						"string",
+						"null"
+					],
+					"default": null,
+					"description": "The LLM Provider's Parameter Template used when creating a quick chat."
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run package",
+		"compile": "node ./esbuild.js",
+		"package": "cross-env NODE_ENV=production node ./esbuild.js",
+		"watch": "node ./esbuild.js --watch",
+		"lint": "eslint src --ext ts"
+	},
+	"devDependencies": {
+		"@types/glob": "^8.1.0",
+		"@types/node": "^20.8.9",
+		"@types/showdown": "^2.0.3",
+		"@types/vscode": "^1.73.0",
+		"@types/vscode-webview": "^1.57.3",
+		"@typescript-eslint/eslint-plugin": "^6.7.0",
+		"@typescript-eslint/parser": "^6.7.0",
+		"@vscode/codicons": "^0.0.35",
+		"@vscode/webview-ui-toolkit": "^1.2.2",
+		"cross-env": "^7.0.3",
+		"esbuild": "^0.16.17",
+		"esbuild-plugin-copy": "^2.1.1",
+		"eslint": "^8.32.0",
+		"glob": "^10.3.10",
+		"nanoid": "^5.0.3",
+		"prettier": "^3.0.3",
+		"showdown": "^2.1.0",
+		"typescript": "^5.2.2"
+	}
+}
